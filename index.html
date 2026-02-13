@@ -1,205 +1,731 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For My Forever Valentine ❤️</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Krutika ❤️</title>
 
 <style>
-body{
-  margin:0;
-  font-family: system-ui, Arial;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  min-height:100vh;
-  color:#fff;
-  overflow:hidden;
-}
+  :root{
+    --pink:#ff2e63;
+    --pink2:#ff5e78;
+    --glass: rgba(255,255,255,0.16);
+    --glass2: rgba(255,255,255,0.22);
+    --shadow: 0 18px 55px rgba(0,0,0,.35);
+    --textShadow: 0 2px 12px rgba(0,0,0,.35);
+  }
 
-/* blurred fullscreen background */
-.bg{
-  position:fixed;
-  inset:0;
-  z-index:-6;
-  background-position:center;
-  background-size:cover;
-  filter: blur(18px) brightness(0.7);
-}
+  *{box-sizing:border-box}
+  html, body{height:100%}
+  body{
+    margin:0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    color:#fff;
+    overflow:hidden;
+    background:
+      radial-gradient(circle at 18% 15%, rgba(255,154,158,.55), transparent 45%),
+      radial-gradient(circle at 80% 30%, rgba(251,194,235,.45), transparent 50%),
+      radial-gradient(circle at 40% 85%, rgba(166,193,238,.45), transparent 55%),
+      linear-gradient(135deg, #1a1a1a, #2a1431);
+  }
 
-/* sharp centered image */
-.bgCenter{
-  position:fixed;
-  inset:0;
-  z-index:-5;
-  background-position:center;
-  background-repeat:no-repeat;
-  background-size:contain;
-}
+  /* =========================
+     3-second cinematic intro
+     ========================= */
+  .intro{
+    position:fixed; inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    z-index:50;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(255,94,120,.35), transparent 55%),
+      radial-gradient(circle at 85% 40%, rgba(255,46,99,.28), transparent 60%),
+      linear-gradient(135deg, rgba(0,0,0,.88), rgba(0,0,0,.70));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .intro.hidden{
+    opacity:0;
+    transform: scale(1.02);
+    pointer-events:none;
+  }
+  .introCard{
+    width:min(760px, 92vw);
+    border-radius:26px;
+    padding:28px 22px;
+    background: rgba(255,255,255,.10);
+    border:1px solid rgba(255,255,255,.18);
+    box-shadow: var(--shadow);
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .introGlow{
+    position:absolute; inset:-40%;
+    background: radial-gradient(circle, rgba(255,46,99,.25), transparent 60%);
+    animation: glow 3.2s ease-in-out infinite;
+    pointer-events:none;
+  }
+  @keyframes glow{
+    0%,100%{transform: translate(-3%, -2%) scale(1.05);}
+    50%{transform: translate(4%, 3%) scale(1.12);}
+  }
+  .introTitle{
+    position:relative;
+    margin:0;
+    font-size: clamp(26px, 4vw, 40px);
+    letter-spacing:.2px;
+    text-shadow: var(--textShadow);
+  }
+  .introSub{
+    position:relative;
+    margin:10px 0 18px;
+    font-size: 15px;
+    opacity:.92;
+    text-shadow: var(--textShadow);
+    line-height:1.35;
+  }
+  .tapBtn{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    border:0;
+    padding:14px 18px;
+    border-radius:999px;
+    font-weight:800;
+    font-size:16px;
+    cursor:pointer;
+    color:#fff;
+    background: linear-gradient(135deg, var(--pink2), var(--pink));
+    box-shadow: 0 12px 30px rgba(255,46,99,.25);
+    transition: transform .12s ease, box-shadow .18s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .tapBtn:active{transform:scale(.98)}
+  .pulse{
+    position:relative;
+    display:inline-block;
+    width:10px; height:10px;
+    border-radius:999px;
+    background:#fff;
+    box-shadow: 0 0 0 0 rgba(255,255,255,.45);
+    animation: pulse 1.2s infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow: 0 0 0 0 rgba(255,255,255,.55)}
+    100%{box-shadow: 0 0 0 14px rgba(255,255,255,0)}
+  }
 
-/* glass card */
-.card{
-  width:min(650px,92vw);
-  background: rgba(255,255,255,0.18);
-  backdrop-filter: blur(12px);
-  border-radius:20px;
-  padding:25px;
-  box-shadow:0 20px 40px rgba(0,0,0,.35);
-  text-align:center;
-}
+  /* =========================
+     Main layout: wall + center quiz + wall
+     ========================= */
+  .stage{
+    position:relative;
+    height:100%;
+    display:flex;
+    align-items:stretch;
+    justify-content:center;
+    gap:18px;
+    padding:18px;
+  }
 
-.answers button{
-  display:block;
-  width:100%;
-  margin:10px 0;
-  padding:12px;
-  border-radius:12px;
-  border:none;
-  font-size:16px;
-  cursor:pointer;
-}
+  .wall{
+    flex: 0 0 min(22vw, 230px);
+    min-width: 140px;
+    border-radius:22px;
+    position:relative;
+    overflow:hidden;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04)),
+      radial-gradient(circle at 20% 20%, rgba(255,46,99,.10), transparent 60%),
+      radial-gradient(circle at 80% 70%, rgba(166,193,238,.12), transparent 65%);
+    border:1px solid rgba(255,255,255,.14);
+    box-shadow: 0 14px 40px rgba(0,0,0,.22);
+  }
 
-.next{
-  margin-top:10px;
-  padding:12px 20px;
-  border:none;
-  border-radius:20px;
-  background:#ff4d6d;
-  color:white;
-  font-size:16px;
-  cursor:pointer;
-}
+  /* continuous scrolling strips (two identical for seamless loop) */
+  .strip{
+    position:absolute;
+    left:0; right:0;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    padding:16px 14px;
+    animation: scrollY 22s linear infinite;
+    will-change: transform;
+  }
+  .strip.strip2{
+    top:100%;
+  }
+  @keyframes scrollY{
+    0%{ transform: translateY(0); }
+    100%{ transform: translateY(-100%); }
+  }
 
-.finalWrap{
-  position:relative;
-  height:200px;
-}
+  /* Polaroid look with “pin” */
+  .polaroid{
+    position:relative;
+    background: rgba(255,255,255,.95);
+    border-radius:14px;
+    padding:10px 10px 12px;
+    box-shadow: 0 10px 24px rgba(0,0,0,.25);
+    transform: rotate(var(--rot, -2deg));
+  }
+  .polaroid::before{
+    content:"";
+    position:absolute;
+    top:7px; left:50%;
+    width:14px; height:14px;
+    transform: translateX(-50%);
+    border-radius:999px;
+    background: radial-gradient(circle at 30% 30%, #fff, #ffb3c1 55%, #ff2e63);
+    box-shadow: 0 8px 14px rgba(0,0,0,.25);
+  }
+  .polaroid img{
+    width:100%;
+    height:auto;
+    display:block;
+    border-radius:10px;
+    object-fit:contain;
+  }
+  .caption{
+    margin-top:8px;
+    font-size:11px;
+    font-weight:800;
+    color:#222;
+    letter-spacing:.2px;
+    opacity:.82;
+    user-select:none;
+  }
 
-.yes{
-  padding:12px 25px;
-  background:#ff4d6d;
-  border:none;
-  color:white;
-  border-radius:20px;
-}
+  /* center card */
+  .center{
+    flex: 1 1 auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-width: 0;
+  }
 
-.no{
-  position:absolute;
-  left:50%;
-  top:50%;
-  padding:12px 25px;
-  background:#ccc;
-  border:none;
-  border-radius:20px;
-}
+  .card{
+    width:min(720px, 92vw);
+    background: var(--glass);
+    border:1px solid rgba(255,255,255,.18);
+    border-radius:22px;
+    box-shadow: var(--shadow);
+    padding:24px 18px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    position:relative;
+    overflow:hidden;
+  }
 
-.toast{
-  margin-top:15px;
-  font-size:18px;
-}
+  .top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:10px;
+  }
+  .badge{
+    background: rgba(255,255,255,.16);
+    border:1px solid rgba(255,255,255,.22);
+    padding:8px 12px;
+    border-radius:999px;
+    font-weight:900;
+    font-size:13px;
+    box-shadow: 0 8px 18px rgba(0,0,0,.16);
+  }
+
+  h1{
+    margin:10px 0 6px;
+    font-size: clamp(22px, 3.4vw, 30px);
+    text-shadow: var(--textShadow);
+  }
+  .sub{
+    margin:0 0 14px;
+    font-size: 15px;
+    opacity:.92;
+    text-shadow: var(--textShadow);
+    line-height:1.35;
+  }
+  .q{
+    margin: 10px 0 14px;
+    font-weight:900;
+    font-size: clamp(18px, 2.8vw, 22px);
+    text-shadow: var(--textShadow);
+  }
+
+  .answers{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:10px;
+    margin: 10px 0 12px;
+  }
+  @media (max-width:520px){
+    .answers{grid-template-columns:1fr;}
+    .wall{display:none;} /* on small phones, hide walls so quiz is clean */
+  }
+
+  button.opt{
+    border:0;
+    border-radius:16px;
+    padding:14px 14px;
+    font-size:16px;
+    font-weight:900;
+    cursor:pointer;
+    background: rgba(255,255,255,.86);
+    color:#111;
+    box-shadow: 0 10px 22px rgba(0,0,0,.18);
+    transition: transform .08s ease, box-shadow .12s ease;
+    -webkit-tap-highlight-color: transparent;
+    user-select:none;
+  }
+  button.opt:active{transform:scale(.98)}
+
+  .footer{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-top: 8px;
+  }
+  .hint{
+    font-size: 13px;
+    opacity:.85;
+    text-shadow: var(--textShadow);
+  }
+  .next{
+    border:0;
+    border-radius:999px;
+    padding: 12px 18px;
+    cursor:pointer;
+    font-weight:900;
+    font-size:15px;
+    color:#fff;
+    background: linear-gradient(135deg, var(--pink2), var(--pink));
+    box-shadow: 0 12px 26px rgba(255,46,99,.22);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .next:active{transform:scale(.98)}
+
+  .toast{
+    margin-top:14px;
+    background: rgba(0,0,0,.55);
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:16px;
+    padding:12px 12px;
+    font-size:14px;
+    font-weight:800;
+    min-height:46px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-shadow: var(--textShadow);
+  }
+
+  /* final screen buttons */
+  .finalWrap{
+    position:relative;
+    height:220px;
+    margin-top:12px;
+  }
+  .yes{
+    border:0;
+    padding:14px 22px;
+    border-radius:999px;
+    font-weight:900;
+    font-size:18px;
+    cursor:pointer;
+    color:#fff;
+    background: linear-gradient(135deg, #ff6b88, #ff2e63);
+    box-shadow: 0 14px 28px rgba(255,46,99,.22);
+  }
+  .no{
+    position:absolute;
+    left:54%;
+    top:56%;
+    border:0;
+    padding:12px 20px;
+    border-radius:999px;
+    font-weight:900;
+    font-size:16px;
+    cursor:pointer;
+    background:#d9d9d9;
+    color:#222;
+  }
+
+  .loveMsg{
+    margin-top: 12px;
+    background: rgba(255,255,255,.88);
+    color:#111;
+    border-radius:18px;
+    padding:14px;
+    display:none;
+    border:1px solid rgba(255,255,255,.35);
+  }
+  .loveMsg.show{display:block}
+  .small{
+    margin-top:6px;
+    font-size:13px;
+    opacity:.75;
+    font-weight:700;
+  }
+
+  /* confetti dots */
+  .confetti{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    border-radius: 22px;
+  }
+  .dot{
+    position:absolute;
+    width:8px;height:8px;border-radius:50%;
+    animation: pop 1100ms ease forwards;
+  }
+  @keyframes pop{
+    0%{ transform: translateY(0) scale(1); opacity:1;}
+    100%{ transform: translateY(150px) scale(.55); opacity:0;}
+  }
 </style>
 </head>
 
 <body>
 
-<div class="bg" id="bgBlur"></div>
-<div class="bgCenter" id="bg"></div>
+<!-- 3s intro overlay -->
+<div class="intro" id="intro">
+  <div class="introCard">
+    <div class="introGlow"></div>
+    <h1 class="introTitle">Krutika, this is for you ❤️</h1>
+    <p class="introSub">
+      A tiny quiz, our memories, and one final question…<br/>
+      <b>Tap to begin</b> 😌✨
+    </p>
+    <button class="tapBtn" id="tapBtn">
+      <span class="pulse"></span> Tap to begin
+    </button>
+  </div>
+</div>
 
-<div class="card" id="card">
-<h2 id="question"></h2>
-<div class="answers" id="answers"></div>
-<button class="next" id="nextBtn">Next ➜</button>
-<div class="toast" id="toast"></div>
+<div class="stage">
+
+  <!-- Left wall -->
+  <div class="wall" aria-hidden="true">
+    <div class="strip" id="leftStrip1"></div>
+    <div class="strip strip2" id="leftStrip2"></div>
+  </div>
+
+  <!-- Center quiz -->
+  <div class="center">
+    <div class="card" id="card">
+      <div class="confetti" id="confetti"></div>
+
+      <div class="top">
+        <div class="badge">💌 Valentine Quest</div>
+        <div class="badge" id="progress">1 / 5</div>
+      </div>
+
+      <h1>Hey my love ❤️</h1>
+      <p class="sub">A tiny romantic quiz… made by your personal fanboy: <b>SP</b> 😌</p>
+
+      <div class="q" id="question"></div>
+      <div class="answers" id="answers"></div>
+
+      <div class="footer">
+        <div class="hint">Pick an option… read the message… then hit Next 😌👇</div>
+        <button class="next" id="nextBtn">Next ➜</button>
+      </div>
+
+      <div class="toast" id="toast">Choose an answer to unlock the next memory ❤️</div>
+    </div>
+  </div>
+
+  <!-- Right wall -->
+  <div class="wall" aria-hidden="true">
+    <div class="strip" id="rightStrip1"></div>
+    <div class="strip strip2" id="rightStrip2"></div>
+  </div>
+
 </div>
 
 <script>
+/* =========================
+   IMPORTANT:
+   Your photos are in repo ROOT with names:
+   photo1.jpg ... photo15.jpg
+   ========================= */
 
-/* background slideshow */
-const bg = document.getElementById("bg");
-const bgBlur = document.getElementById("bgBlur");
+const PHOTOS = [
+  "photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg",
+  "photo6.jpg","photo7.jpg","photo8.jpg","photo9.jpg","photo10.jpg",
+  "photo11.jpg","photo12.jpg","photo13.jpg","photo14.jpg","photo15.jpg"
+].map(x => encodeURI(x));
 
-const photos = [
-"photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg",
-"photo6.jpg","photo7.jpg","photo8.jpg","photo9.jpg","photo10.jpg",
-"photo11.jpg","photo12.jpg","photo13.jpg","photo14.jpg","photo15.jpg"
+/* =========================
+   Build "pinned printouts" wall
+   - repeats forever, never stops
+   - random rotation for realism
+   ========================= */
+function polaroidHTML(src, idx){
+  const rot = ((idx % 5) - 2) * 1.2; // -2.4..+2.4 deg
+  const caption = "us ❤️";
+  return `
+    <div class="polaroid" style="--rot:${rot}deg">
+      <img src="${src}" alt="photo">
+      <div class="caption">${caption}</div>
+    </div>
+  `;
+}
+
+function fillStrip(el, offset){
+  // Use all photos, then repeat twice to ensure the strip height is long enough.
+  let html = "";
+  const order = [];
+  for(let i=0;i<PHOTOS.length;i++){
+    order.push(PHOTOS[(i+offset)%PHOTOS.length]);
+  }
+  // repeat to guarantee full strip
+  const repeated = order.concat(order).concat(order);
+  repeated.forEach((src, idx)=>{ html += polaroidHTML(src, idx); });
+  el.innerHTML = html;
+}
+
+fillStrip(document.getElementById("leftStrip1"), 0);
+fillStrip(document.getElementById("leftStrip2"), 0);
+fillStrip(document.getElementById("rightStrip1"), 7);
+fillStrip(document.getElementById("rightStrip2"), 7);
+
+/* =========================
+   Intro logic:
+   - show intro
+   - 3 seconds cinematic pause
+   - user can tap to start sooner or after 3s
+   ========================= */
+const intro = document.getElementById("intro");
+const tapBtn = document.getElementById("tapBtn");
+
+let introDismissed = false;
+function dismissIntro(){
+  if(introDismissed) return;
+  introDismissed = true;
+  intro.classList.add("hidden");
+}
+tapBtn.addEventListener("click", dismissIntro);
+intro.addEventListener("click", (e)=>{
+  // allow tapping anywhere, but ignore double firing from button
+  if(e.target === tapBtn) return;
+  dismissIntro();
+});
+
+// Auto-dismiss after ~3 seconds (still tap-friendly)
+setTimeout(dismissIntro, 3000);
+
+/* =========================
+   Quiz (no auto-next)
+   ========================= */
+const questions = [
+  {
+    q:"Where did our magical story begin? ✨",
+    a:["Gare de Lyon","CDG Airport","Sarvana Bhavan","Gare du Nord"],
+    correct:3,
+    cheer:"Correct! Gare du Nord — where destiny said: ‘Okay, these two.’ 🚆💘"
+  },
+  {
+    q:"How many countries have we travelled together (excluding France & Norway)? 🌍",
+    a:["10","8","9","7"],
+    correct:1,
+    cheer:"8! We really said ‘passport > sleep’ 😄🧳"
+  },
+  {
+    q:"How many months are we together? ⏳",
+    a:["33","32","35","30"],
+    correct:1,
+    cheer:"32 months — and my favourite hobby is still: loving you. 🥹❤️"
+  },
+  {
+    q:"Who said ‘I love you’ first? 😏",
+    a:["SP","SP","SP","SP"],
+    correct:0,
+    cheer:"Obviously SP. I’m shamelessly in love with you 😌💞"
+  },
+  {
+    q:"Who is more romantic, loving & caring? 💘",
+    a:["SP","SP","SP","SP"],
+    correct:0,
+    cheer:"SP again. I accept this award. Thank you, thank you. 🏆😂"
+  }
 ];
 
-let bi=0;
-function setBg(){
-  bg.style.backgroundImage=`url("${photos[bi]}")`;
-  bgBlur.style.backgroundImage=`url("${photos[bi]}")`;
-  bi=(bi+1)%photos.length;
-}
-setBg();
-setInterval(setBg,6000);
+let qi = 0;
+let answered = false;
 
+const qEl = document.getElementById("question");
+const aEl = document.getElementById("answers");
+const toast = document.getElementById("toast");
+const progress = document.getElementById("progress");
+const nextBtn2 = document.getElementById("nextBtn");
+const confetti = document.getElementById("confetti");
 
-/* quiz questions */
-const questions=[
-{q:"Where did our magical story begin?",a:["Gare de Lyon","CDG Airport","Sarvana Bhavan","Gare du Nord"],correct:3},
-{q:"How many countries have we travelled together (excluding France & Norway)?",a:["10","8","9","7"],correct:1},
-{q:"How many months are we together?",a:["33","32","35","30"],correct:1},
-{q:"Who said I love you first?",a:["SP","SP","SP","SP"],correct:0},
-{q:"Who is more romantic and caring?",a:["SP","SP","SP","SP"],correct:0}
-];
-
-let i=0;
-let answered=false;
-
-const qEl=document.getElementById("question");
-const aEl=document.getElementById("answers");
-const toast=document.getElementById("toast");
-const nextBtn=document.getElementById("nextBtn");
-
-function load(){
- qEl.innerHTML=questions[i].q;
- aEl.innerHTML="";
- answered=false;
- toast.innerHTML="";
-
- questions[i].a.forEach((txt,idx)=>{
-   const b=document.createElement("button");
-   b.innerHTML=txt;
-   b.onclick=()=>{
-     answered=true;
-     toast.innerHTML="Good choice ❤️";
-   };
-   aEl.appendChild(b);
- });
+function showToast(msg){
+  toast.textContent = msg;
 }
 
-function next(){
- i++;
- if(i<questions.length) load();
- else finalScreen();
+function burst(){
+  for(let k=0;k<28;k++){
+    const d=document.createElement("div");
+    d.className="dot";
+    d.style.left = (Math.random()*100)+"%";
+    d.style.top = (Math.random()*18)+"%";
+    d.style.background = `hsla(${Math.random()*360}, 85%, 70%, .95)`;
+    d.style.animationDuration = (800 + Math.random()*600) + "ms";
+    confetti.appendChild(d);
+    setTimeout(()=>d.remove(), 1300);
+  }
 }
 
-nextBtn.onclick=()=>{
- if(!answered){toast.innerHTML="Choose an answer first 😊";return;}
- next();
+function loadQ(){
+  progress.textContent = `${qi+1} / ${questions.length}`;
+  qEl.textContent = questions[qi].q;
+  aEl.innerHTML = "";
+  answered = false;
+  showToast("Choose an answer to unlock the next memory ❤️");
+
+  questions[qi].a.forEach((txt, idx)=>{
+    const b = document.createElement("button");
+    b.className = "opt";
+    b.textContent = txt;
+    b.onclick = ()=>{
+      answered = true;
+
+      // highlight selected
+      [...aEl.querySelectorAll("button")].forEach(btn => btn.style.outline = "none");
+      b.style.outline = "3px solid rgba(255,46,99,.55)";
+
+      if(idx === questions[qi].correct){
+        burst();
+        showToast(questions[qi].cheer);
+      }else{
+        showToast("Hehe… try again 😌 (Tip: your husband is always right). 💕");
+      }
+    };
+    aEl.appendChild(b);
+  });
+}
+
+function nextQ(){
+  qi++;
+  if(qi < questions.length){
+    loadQ();
+  }else{
+    finalScreen();
+  }
+}
+
+nextBtn2.onclick = ()=>{
+  if(!answered){
+    showToast("Choose an option first, madam Valentine 😌💖");
+    return;
+  }
+  nextQ();
 };
 
 function finalScreen(){
- document.getElementById("card").innerHTML=`
- <h2>From Paris to Trondheim… you are my forever ❤️</h2>
- <h3>Will you be my Valentine?</h3>
- <div class="finalWrap">
- <button class="yes" onclick="alert('She said YES ❤️')">YES</button>
- <button class="no" id="noBtn">NO</button>
- </div>
- `;
+  document.getElementById("card").innerHTML = `
+    <div class="confetti" id="confetti2"></div>
+    <div class="top">
+      <div class="badge">❤️ Final Boss</div>
+      <div class="badge">SP × You = Forever</div>
+    </div>
 
- const no=document.getElementById("noBtn");
- no.addEventListener("mouseover",()=>moveNo(no));
- no.addEventListener("click",()=>moveNo(no));
+    <h1>My love… 🥹</h1>
+    <p class="sub">
+      From <b>Gare du Nord</b> to our never-ending adventures,<br/>
+      from <b>Paris, France</b> ↔️ <b>Trondheim, Norway</b> to “one day, same home”…<br/>
+      you are my favourite person, my peace, my excitement, my heart.
+    </p>
+
+    <h2 style="margin:14px 0 6px; text-shadow: var(--textShadow);">Will you be my Valentine? 💍💘</h2>
+    <p class="sub" style="margin-top:0;">Warning: one option is allergic to rejection 😈</p>
+
+    <div class="finalWrap" id="finalWrap">
+      <button class="yes" id="yesBtn">YES ❤️</button>
+      <button class="no" id="noBtn">NO 🙃</button>
+    </div>
+
+    <div class="loveMsg" id="loveMsg">
+      <div style="font-size:18px; font-weight:900;">YAYYYYY 💖🥳</div>
+      <div style="margin-top:8px; font-weight:800;">
+        Paris or Trondheim… I’ll still choose you. Every time. ❤️
+      </div>
+      <div class="small">Now screenshot this and send me a 😘</div>
+    </div>
+  `;
+
+  const no = document.getElementById("noBtn");
+  const wrap = document.getElementById("finalWrap");
+  const yes = document.getElementById("yesBtn");
+  const msg = document.getElementById("loveMsg");
+  const conf2 = document.getElementById("confetti2");
+
+  function moveNo(clientX, clientY){
+    const rect = wrap.getBoundingClientRect();
+    const bw = no.offsetWidth || 90;
+    const bh = no.offsetHeight || 44;
+
+    let x = Math.random() * (rect.width - bw);
+    let y = 60 + Math.random() * (rect.height - bh - 60);
+
+    if(typeof clientX === "number"){
+      const fx = clientX - rect.left;
+      const fy = clientY - rect.top;
+      const dx = x - fx;
+      const dy = y - fy;
+      if(Math.hypot(dx,dy) < 110){
+        x = Math.max(0, Math.min(rect.width - bw, x + (dx>=0?120:-120)));
+        y = Math.max(60, Math.min(rect.height - bh, y + (dy>=0?80:-80)));
+      }
+    }
+
+    no.style.left = x + "px";
+    no.style.top  = y + "px";
+  }
+
+  no.addEventListener("mouseover", (e)=>moveNo(e.clientX, e.clientY));
+  no.addEventListener("touchstart", (e)=>{
+    const t = e.touches[0];
+    moveNo(t.clientX, t.clientY);
+    e.preventDefault();
+  }, {passive:false});
+  no.addEventListener("click", (e)=>moveNo(e.clientX, e.clientY));
+
+  yes.onclick = ()=>{
+    msg.classList.add("show");
+    for(let k=0;k<36;k++){
+      const d=document.createElement("div");
+      d.className="dot";
+      d.style.left = (Math.random()*100)+"%";
+      d.style.top = (Math.random()*12)+"%";
+      d.style.background = `hsla(${Math.random()*360}, 85%, 70%, .95)`;
+      d.style.animationDuration = (850 + Math.random()*650) + "ms";
+      conf2.appendChild(d);
+      setTimeout(()=>d.remove(), 1400);
+    }
+  };
+
+  setTimeout(()=>moveNo(), 600);
 }
 
-function moveNo(btn){
- btn.style.left=Math.random()*80+"%";
- btn.style.top=Math.random()*80+"%";
-}
+loadQ();
 
-load();
+/* Force image preloading (helps with “missing” images) */
+PHOTOS.forEach(src => { const im = new Image(); im.src = src; });
 
 </script>
 </body>
