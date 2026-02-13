@@ -29,13 +29,14 @@
 
   /* ✅ Background slideshow layer */
   .bg{
-    position:fixed;
-    inset:0;
-    z-index:-5;
-    background:center/cover no-repeat;
-    transform:scale(1.06);
-    transition:opacity 900ms ease;
+      position:fixed;
+      inset:0;
+      z-index:-5;
+      background:center/contain no-repeat;
+      background-color:black;   /* fills empty sides nicely */
+      transition:opacity 900ms ease;
   }
+
   .bg::after{
     content:"";
     position:absolute;
