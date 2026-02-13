@@ -32,8 +32,12 @@
       position:fixed;
       inset:0;
       z-index:-5;
-      background:center/contain no-repeat;
-      background-color:black;   /* fills empty sides nicely */
+  
+      background-position:center center;
+      background-repeat:no-repeat;
+      background-size:contain;   /* shows full image */
+      background-color:black;    /* fills empty sides */
+  
       transition:opacity 900ms ease;
   }
 
@@ -258,10 +262,23 @@
 /* ✅ BACKGROUND SLIDESHOW (your photos are in repo ROOT) */
 const bg = document.getElementById("bg");
 const photos = [
-  "photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg",
-  "photo6.jpg","photo7.jpg","photo8.jpg","photo9.jpg","photo10.jpg",
-  "photo11.jpg","photo12.jpg","photo13.jpg","photo14.jpg","photo15.jpg",
+  "photo1.jpg",
+  "photo2.jpg",
+  "photo3.jpg",
+  "photo4.jpg",
+  "photo5.jpg",
+  "photo6.jpg",
+  "photo7.jpg",
+  "photo8.jpg",
+  "photo9.jpg",
+  "photo10.jpg",
+  "photo11.jpg",
+  "photo12.jpg",
+  "photo13.jpg",
+  "photo14.jpg",
+  "photo15.jpg"
 ].map(x => encodeURI(x));
+
 
 let bi = 0;
 function setBg(){
