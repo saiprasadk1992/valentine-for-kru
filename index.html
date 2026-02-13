@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>For My Forever Valentine ❤️</title>
+<style>
+  :root{
+    --pink:#ff2e63;
+    --pink2:#ff5e78;
+    --card:#ffffffee;
+    --shadow: 0 10px 30px rgba(0,0,0,.18);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background: radial-gradient(circle at top left, #ff9a9e, #fad0c4 35%, #fbc2eb 70%, #a6c1ee);
+    overflow:hidden;
+    color:#2b2b2b;
+  }
+
+  /* floating hearts */
+  .hearts span{
+    position:absolute;
+    bottom:-30px;
+    font-size:18px;
+    opacity:.75;
+    animation: floatUp linear infinite;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,.2));
+  }
+  @keyframes floatUp{
+    from{ transform: translateY(0) translateX(0) rotate(0deg); }
+    to{ transform: translateY(-120vh) translateX(30px) rotate(20deg); }
+  }
+
+  .card{
+    width:min(680px, 92vw);
+    background: var(--card);
+    border-radius: 22px;
+    box-shadow: var(--shadow);
+    padding: 26px 22px;
+    backdrop-filter: blur(6px);
+    position:relative;
+  }
+  .top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:10px;
+  }
+  .badge{
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.08);
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 13px;
+    box-shadow: 0 4px 10px rgba(0,0,0,.08);
+  }
+  h1{
+    margin:10px 0 6px;
+    font-size: clamp(22px, 3.2vw, 30px);
+    line-height:1.15;
+  }
+  .sub{
+    margin:0 0 16px;
+    font-size: 15px;
+    opacity:.85;
+  }
+  .q{
+    font-size: clamp(18px, 2.7vw, 22px);
+    margin: 10px 0 14px;
+    font-weight: 750;
+  }
+
+  .answers{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 10px 0 14px;
+  }
+  @media (max-width:520px){
+    .answers{grid-template-columns:1fr;}
+  }
+
+  button{
+    border:0;
+    border-radius: 16px;
+    padding: 14px 14px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor:pointer;
+    box-shadow: 0 8px 18px rgba(0,0,0,.10);
+    transition: transform .08s ease, box-shadow .12s ease;
+    user-select:none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  button:active{ transform: scale(.98); }
+  .opt{
+    background:#fff;
+    border:1px solid rgba(0,0,0,.10);
+  }
+  .opt:hover{ box-shadow: 0 12px 22px rgba(0,0,0,.14); }
+
+  .footer{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-top: 8px;
+  }
+  .next{
+    background: linear-gradient(135deg, var(--pink2), var(--pink));
+    color:white;
+    padding: 12px 18px;
+    border-radius: 999px;
+  }
+  .hint{
+    font-size: 13px;
+    opacity:.75;
+  }
+
+  .toast{
+    position:absolute;
+    inset:auto 16px 16px 16px;
+    background:#111;
+    color:#fff;
+    padding: 12px 14px;
+    border-radius: 14px;
+    opacity:0;
+    transform: translateY(10px);
+    transition: opacity .25s ease, transform .25s ease;
+    font-size: 14px;
+    box-shadow: 0 10px 26px rgba(0,0,0,.28);
+    pointer-events:none;
+  }
+  .toast.show{
+    opacity:1;
+    transform: translateY(0);
+  }
+
+  .finalWrap{
+    position:relative;
+    height: 240px;
+    margin-top: 14px;
+  }
+  .yes{
+    background: linear-gradient(135deg, #ff6b88, #ff2e63);
+    color:white;
+    font-size: 18px;
+    border-radius: 999px;
+    padding: 14px 22px;
+  }
+  .no{
+    background:#d9d9d9;
+    color:#333;
+    position:absolute;
+    left: 52%;
+    top: 54%;
+    border-radius: 999px;
+    padding: 12px 20px;
+  }
+  .loveMsg{
+    margin-top: 10px;
+    background:#fff;
+    border:1px solid rgba(0,0,0,.10);
+    border-radius: 18px;
+    padding: 14px;
+    display:none;
+  }
+  .loveMsg.show{display:block;}
+  .small{
+    font-size: 13px;
+    opacity:.72;
+    margin-top:6px;
+  }
+
+  /* confetti dots */
+  .confetti{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    border-radius: 22px;
+  }
+  .dot{
+    position:absolute;
+    width:8px;height:8px;border-radius:50%;
+    background: rgba(255,255,255,.95);
+    animation: pop 900ms ease forwards;
+  }
+  @keyframes pop{
+    0%{ transform: translateY(0) scale(1); opacity:1;}
+    100%{ transform: translateY(120px) scale(.6); opacity:0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="hearts" aria-hidden="true"></div>
+
+<div class="card" id="card">
+  <div class="confetti" id="confetti"></div>
+
+  <div class="top">
+    <div class="badge">💌 Valentine Quest</div>
+    <div class="badge" id="progress">1 / 5</div>
+  </div>
+
+  <h1>Hey my love ❤️</h1>
+  <p class="sub">A tiny, romantic, slightly ridiculous quiz… made by your personal fanboy: <b>SP</b> 😌</p>
+
+  <div class="q" id="question"></div>
+  <div class="answers" id="answers"></div>
+
+  <div class="footer">
+    <div class="hint" id="hint">Pick any option… but your heart already knows the truth 😏</div>
+    <button class="next" id="nextBtn">Next ➜</button>
+  </div>
+
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+  // QUESTIONS (flow: origin -> adventures -> time -> feelings -> romance)
+  const questions = [
+    {
+      q:"Where did our magical story begin? ✨",
+      a:["Gare de Lyon","CDG Airport","Sarvana Bhavan","Gare du Nord"],
+      correct:3,
+      cheer:"Correct! Gare du Nord — where destiny said: ‘Okay, these two.’ 🚆💘"
+    },
+    {
+      q:"How many countries have we explored together (excluding France & Norway)? 🌍",
+      a:["10","8","9","7"],
+      correct:1,
+      cheer:"8! We really said ‘passport > sleep’ 😄🧳"
+    },
+    {
+      q:"How many months have we been together (and still not tired of each other)? ⏳",
+      a:["33","32","35","30"],
+      correct:1,
+      cheer:"32 months — and my favourite hobby is still: loving you. 🥹❤️"
+    },
+    {
+      q:"Who said “I love you” first? 😏",
+      a:["SP","SP","SP","SP"],
+      correct:0,
+      cheer:"Obviously SP. I’m shamelessly in love with you 😌💞"
+    },
+    {
+      q:"Who is more romantic, loving & caring? 💘",
+      a:["SP","SP","SP","SP"],
+      correct:0,
+      cheer:"SP again. I accept this award. Thank you, thank you. 🏆😂"
+    }
+  ];
+
+  let i = 0;
+  const qEl = document.getElementById("question");
+  const aEl = document.getElementById("answers");
+  const toast = document.getElementById("toast");
+  const progress = document.getElementById("progress");
+  const nextBtn = document.getElementById("nextBtn");
+  const confetti = document.getElementById("confetti");
+
+  function showToast(msg){
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(()=>toast.classList.remove("show"), 1800);
+  }
+
+  function burst(){
+    for(let k=0;k<22;k++){
+      const d=document.createElement("div");
+      d.className="dot";
+      d.style.left = (Math.random()*100)+"%";
+      d.style.top = (Math.random()*20)+"%";
+      d.style.background = `hsla(${Math.random()*360}, 85%, 75%, .95)`;
+      d.style.animationDuration = (700 + Math.random()*500) + "ms";
+      confetti.appendChild(d);
+      setTimeout(()=>d.remove(), 1100);
+    }
+  }
+
+  function load(){
+    progress.textContent = `${i+1} / ${questions.length}`;
+    qEl.textContent = questions[i].q;
+    aEl.innerHTML = "";
+    questions[i].a.forEach((txt, idx)=>{
+      const b = document.createElement("button");
+      b.className="opt";
+      b.textContent = txt;
+      b.onclick = ()=>{
+        if(idx === questions[i].correct){
+          burst();
+          showToast(questions[i].cheer);
+        }else{
+          showToast("Cute… but nope 😌 Try again (or just click anything, I still love you). 💕");
+        }
+        // move on after short pause
+        setTimeout(()=>next(), 650);
+      };
+      aEl.appendChild(b);
+    });
+  }
+
+  function next(){
+    i++;
+    if(i < questions.length){
+      load();
+    }else{
+      finalScreen();
+    }
+  }
+
+  nextBtn.onclick = next;
+
+  function finalScreen(){
+    document.getElementById("card").innerHTML = `
+      <div class="confetti" id="confetti"></div>
+      <div class="top">
+        <div class="badge">❤️ Final Boss</div>
+        <div class="badge">SP × You = Forever</div>
+      </div>
+
+      <h1>My love… 🥹</h1>
+      <p class="sub">
+        From <b>Gare du Nord</b> to our never-ending adventures,
+        from Norway ↔️ Bangalore to “one day, same home”…<br/>
+        you are my favourite person, my peace, my excitement, my heart.
+      </p>
+
+      <h2 style="margin:16px 0 6px;">Will you be my Valentine? 💍💘</h2>
+      <p class="sub" style="margin-top:0;">Warning: one option is allergic to rejection 😈</p>
+
+      <div class="finalWrap" id="finalWrap">
+        <button class="yes" id="yesBtn">YES ❤️</button>
+        <button class="no" id="noBtn">NO 🙃</button>
+      </div>
+
+      <div class="loveMsg" id="loveMsg">
+        <div style="font-size:18px;font-weight:800;">YAYYYYY 💖🥳</div>
+        <div style="margin-top:8px;">
+          You just made SP the happiest husband in the universe.<br/>
+          I love you more than all our stamps, visas, flights, and hotel breakfasts combined. 😄
+        </div>
+        <div class="small">Now screenshot this and send me a 😘</div>
+      </div>
+    `;
+
+    const no = document.getElementById("noBtn");
+    const wrap = document.getElementById("finalWrap");
+    const yes = document.getElementById("yesBtn");
+    const msg = document.getElementById("loveMsg");
+
+    function moveNo(clientX, clientY){
+      const rect = wrap.getBoundingClientRect();
+      const bw = no.offsetWidth || 90;
+      const bh = no.offsetHeight || 44;
+
+      // choose a new position away from the finger/cursor
+      let x = Math.random() * (rect.width - bw);
+      let y = 60 + Math.random() * (rect.height - bh - 60);
+
+      // if we have finger position, push away from it
+      if(typeof clientX === "number"){
+        const fx = clientX - rect.left;
+        const fy = clientY - rect.top;
+        const dx = x - fx;
+        const dy = y - fy;
+        // If too close, shift
+        if(Math.hypot(dx,dy) < 110){
+          x = Math.max(0, Math.min(rect.width - bw, x + (dx>=0?120:-120)));
+          y = Math.max(60, Math.min(rect.height - bh, y + (dy>=0?80:-80)));
+        }
+      }
+
+      no.style.left = x + "px";
+      no.style.top  = y + "px";
+    }
+
+    // desktop hover
+    no.addEventListener("mouseover", (e)=>moveNo(e.clientX, e.clientY));
+    // mobile touch
+    no.addEventListener("touchstart", (e)=>{
+      const t = e.touches[0];
+      moveNo(t.clientX, t.clientY);
+      e.preventDefault();
+    }, {passive:false});
+    // click safety
+    no.addEventListener("click", (e)=>moveNo(e.clientX, e.clientY));
+
+    yes.onclick = ()=>{
+      msg.classList.add("show");
+      // tiny confetti burst
+      const conf = document.getElementById("confetti");
+      for(let k=0;k<28;k++){
+        const d=document.createElement("div");
+        d.className="dot";
+        d.style.left = (Math.random()*100)+"%";
+        d.style.top = (Math.random()*10)+"%";
+        d.style.background = `hsla(${Math.random()*360}, 85%, 75%, .95)`;
+        d.style.animationDuration = (700 + Math.random()*600) + "ms";
+        conf.appendChild(d);
+        setTimeout(()=>d.remove(), 1300);
+      }
+    };
+
+    // initial nudge to show it's playful
+    setTimeout(()=>moveNo(), 600);
+  }
+
+  // hearts generator
+  const heartsWrap = document.querySelector(".hearts");
+  const heartEmojis = ["❤️","💕","💖","💘","💝","💗"];
+  for(let n=0;n<18;n++){
+    const s = document.createElement("span");
+    s.textContent = heartEmojis[Math.floor(Math.random()*heartEmojis.length)];
+    s.style.left = (Math.random()*100) + "vw";
+    s.style.animationDuration = (10 + Math.random()*10) + "s";
+    s.style.animationDelay = (-Math.random()*10) + "s";
+    s.style.fontSize = (14 + Math.random()*18) + "px";
+    heartsWrap.appendChild(s);
+  }
+
+  load();
+</script>
+</body>
+</html>
